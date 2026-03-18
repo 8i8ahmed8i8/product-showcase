@@ -1,0 +1,192 @@
+---
+import { translations } from '../data/translations';
+
+interface Props {
+	lang?: 'en' | 'ar';
+}
+
+const { lang = 'en' } = Astro.props;
+const t = translations[lang].about;
+---
+
+<section id="about" class="about">
+	<div class="container about-container">
+		<div class="visual">
+			<div class="video-container">
+				<video autoplay loop muted playsinline class="about-video" id="aboutVideo">
+					<source src="/images/7.mp4" type="video/mp4" />
+					{lang === 'en' ? 'Your browser does not support the video tag.' : 'متصفحك لا يدعم تشغيل الفيديو.'}
+				</video>
+				<button id="unmuteBtn" class="unmute-btn" aria-label="Toggle mute">
+					<span class="icon">🔇</span>
+				</button>
+			</div>
+		</div>
+
+<script>
+	const video = document.getElementById('aboutVideo') as HTMLVideoElement;
+	const unmuteBtn = document.getElementById('unmuteBtn');
+	
+	if (video && unmuteBtn) {
+		const icon = unmuteBtn.querySelector('.icon')!;
+		
+		video.muted = true;
+		icon.textContent = '🔇';
+
+		video.play().catch(() => {
+			console.log("Autoplay failed even while muted.");
+		});
+
+		const toggleMute = () => {
+			video.muted = !video.muted;
+			icon.textContent = video.muted ? '🔇' : '🔊';
+		};
+
+		unmuteBtn.addEventListener('click', (e) => {
+			e.stopPropagation();
+			toggleMute();
+		});
+
+		const handleFirstInteraction = () => {
+			if (video.muted) {
+				video.muted = false;
+				icon.textContent = '🔊';
+				video.play().catch(() => {});
+			}
+			
+			['click', 'touchstart', 'scroll'].forEach(event => {
+				document.removeEventListener(event, handleFirstInteraction);
+			});
+		};
+
+		['click', 'touchstart', 'scroll'].forEach(event => {
+			document.addEventListener(event, handleFirstInteraction, { once: true });
+		});
+	}
+</script>
+		<div class="content">
+			<h2>{t.title}</h2>
+			<p>{t.p1}</p>
+			<p>{t.p2}</p>
+			<div class="stats">
+				<div class="stat">
+					<strong>15+</strong>
+					<span>{t.stats.experience}</span>
+				</div>
+				<div class="stat">
+					<strong>500+</strong>
+					<span>{t.stats.clients}</span>
+				</div>
+				<div class="stat">
+					<strong>24/7</strong>
+					<span>{t.stats.support}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.about {
+		background: var(--card-bg);
+	}
+
+	.about-container {
+		display: grid;
+		grid-template-columns: 1fr 1.2fr;
+		align-items: center;
+		gap: 6rem;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	p {
+		font-size: 1.125rem;
+		color: var(--muted);
+		margin-bottom: 1.5rem;
+	}
+
+	.stats {
+		display: flex;
+		gap: 3rem;
+		margin-top: 3rem;
+	}
+
+	.stat strong {
+		display: block;
+		font-size: 2rem;
+		color: var(--accent);
+	}
+
+	.stat span {
+		font-size: 0.875rem;
+		color: var(--muted);
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+
+	.about-video {
+		width: 100%;
+		aspect-ratio: 4/3;
+		object-fit: cover;
+		border-radius: 12px;
+		display: block;
+		box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+	}
+
+	.video-container {
+		position: relative;
+		width: 100%;
+	}
+
+	.unmute-btn {
+		position: absolute;
+		bottom: 20px;
+		right: 20px;
+		background: rgba(0, 0, 0, 0.6);
+		color: white;
+		border: none;
+		border-radius: 50%;
+		width: 44px;
+		height: 44px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.25rem;
+		transition: background 0.3s;
+		z-index: 10;
+	}
+
+	[dir="rtl"] .unmute-btn {
+		right: auto;
+		left: 20px;
+	}
+
+	[dir="rtl"] .about-container {
+		text-align: right;
+	}
+
+	.unmute-btn:hover {
+		background: rgba(0, 0, 0, 0.8);
+	}
+
+	@media (max-width: 968px) {
+		.about-container {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+
+		[dir="rtl"] .about-container {
+			text-align: center;
+		}
+
+		.stats {
+			justify-content: center;
+			gap: 2rem;
+		}
+	}
+</style>

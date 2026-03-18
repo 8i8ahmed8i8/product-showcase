@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
+import About from '../components/About.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Footer from '../components/Footer.astro';
+
+const lang = 'ar';
+---
+
+<Layout title="الأندلسية | فول سوداني مصري فاخر" lang={lang}>
+	<Header lang={lang} />
+	<main>
+		<Hero lang={lang} />
+		<Features lang={lang} />
+		<About lang={lang} />
+		<ContactForm lang={lang} />
+	</main>
+	<Footer lang={lang} />
+</Layout>
+
+<style>
+	main {
+		width: 100%;
+	}
+</style>

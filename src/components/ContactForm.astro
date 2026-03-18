@@ -1,0 +1,240 @@
+---
+import { translations } from '../data/translations';
+
+interface Props {
+	lang?: 'en' | 'ar';
+}
+
+const { lang = 'en' } = Astro.props;
+const t = translations[lang].contact;
+---
+
+<section id="contact" class="contact">
+	<div class="container contact-container">
+		<div class="header">
+			<h2>{t.title}</h2>
+			<p>{t.subtitle}</p>
+		</div>
+		<div class="contact-grid">
+			<form action="https://formsubmit.co/info@peanut-eg.com" method="POST" class="contact-form">
+				<!-- Custom Auto-Reply Message -->
+				<input type="hidden" name="_autoresponse" value="Thank you for contacting Andalusia! We have received your message and will get back to you as soon as possible.">
+				
+				<!-- Optional: Customize the subject of the email you receive -->
+				<input type="hidden" name="_subject" value="New Contact Form Submission - Andalusia">
+				
+				<!-- Redirect user back to the current page after success -->
+				<input type="hidden" name="_next" id="next-url" value="http://localhost:4321/?success=true">
+
+				<div class="form-group">
+					<label for="name">{t.form.name}</label>
+					<input type="text" id="name" name="name" placeholder={t.form.namePlaceholder} required />
+				</div>
+				<div class="form-group">
+					<label for="email">{t.form.email}</label>
+					<input type="email" id="email" name="email" placeholder={t.form.emailPlaceholder} required />
+				</div>
+				<div class="form-group">
+					<label for="message">{t.form.message}</label>
+					<textarea id="message" name="message" rows="5" placeholder={t.form.messagePlaceholder} required></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary btn-block">{t.form.send}</button>
+			</form>
+			<div class="contact-details">
+				<div class="info-cards">
+					<div class="info-card">
+						<div class="icon">📧</div>
+						<div>
+							<h4>{t.details.emailTitle}</h4>
+							<p><a href="mailto:info@peanut-eg.com">info@peanut-eg.com</a></p>
+						</div>
+					</div>
+					<div class="info-card">
+						<div class="icon">📞</div>
+						<div>
+							<h4>{t.details.callTitle}</h4>
+							<p><a href="tel:01000740732">01000740732</a></p>
+						</div>
+					</div>
+				</div>
+				<div class="map-container">
+					<iframe 
+						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3434.787612345678!2d31.060000!3d30.630000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f7d9888888888b%3A0x7777777777777777!2z2KfZhNin2YbYr9mE2LPZitipINmE2YTYrdin2LXZhNin2Kog2KfZhNiy2LHYp9i52YrYqSAtINmB2YjZhCDYp9mE2LPZiNiv2KfZhtmK!5e0!3m2!1sen!2seg!4v1620000000000!5m2!1sen!2seg" 
+						width="100%" 
+						height="100%" 
+						style="border:0; border-radius: 16px;" 
+						allowfullscreen="" 
+						loading="lazy">
+					</iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.contact {
+		background: var(--background);
+	}
+
+	.header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.header p {
+		font-size: 1.125rem;
+		color: var(--muted);
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.contact-container {
+		max-width: 1200px;
+	}
+
+	.contact-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3rem;
+		align-items: start;
+	}
+
+	.contact-form {
+		background: var(--card-bg);
+		padding: 2.5rem;
+		border-radius: 16px;
+		border: 1px solid var(--border);
+	}
+
+	.contact-details {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.info-cards {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.5rem;
+	}
+
+	.info-card {
+		background: var(--card-bg);
+		padding: 1.5rem;
+		border-radius: 12px;
+		border: 1px solid var(--border);
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.info-card .icon {
+		font-size: 1.5rem;
+	}
+
+	.info-card h4 {
+		font-size: 1rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.info-card p {
+		color: var(--muted);
+		font-size: 0.875rem;
+	}
+
+	.info-card a {
+		color: var(--text);
+		font-weight: 500;
+		text-decoration: none;
+	}
+
+	.info-card a:hover {
+		color: var(--accent);
+	}
+
+	.map-container {
+		height: 300px;
+		background: #f1f5f9;
+		border-radius: 16px;
+		overflow: hidden;
+		border: 1px solid var(--border);
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+	label {
+		display: block;
+		font-weight: 600;
+		margin-bottom: 0.5rem;
+		color: var(--text);
+	}
+
+	input, textarea {
+		width: 100%;
+		padding: 0.75rem 1rem;
+		border-radius: 8px;
+		border: 1px solid var(--border);
+		background: var(--background);
+		color: var(--text);
+		font-family: inherit;
+		font-size: 1rem;
+		transition: border-color 0.2s ease;
+	}
+
+	input:focus, textarea:focus {
+		outline: none;
+		border-color: var(--accent);
+		box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+	}
+
+	.btn-block {
+		width: 100%;
+		border: none;
+		font-size: 1.125rem;
+		padding: 1rem;
+	}
+
+	[dir="rtl"] .contact-grid {
+		text-align: right;
+	}
+
+	[dir="rtl"] .info-card {
+		flex-direction: row-reverse;
+	}
+
+	@media (max-width: 968px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.map-container {
+			height: 350px;
+		}
+	}
+</style>
+
+<script is:inline>
+	// Set the redirection URL dynamically to the home page
+	function setRedirectUrl() {
+		const nextInput = document.getElementById('next-url');
+		if (nextInput) {
+			const currentOrigin = window.location.origin;
+			const isAr = window.location.pathname.startsWith('/ar');
+			const homePath = isAr ? '/ar' : '/';
+			nextInput.value = `${currentOrigin}${homePath}?success=true`;
+		}
+	}
+
+	// Run on load
+	window.addEventListener('DOMContentLoaded', () => {
+		setRedirectUrl();
+	});
+</script>

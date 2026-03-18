@@ -1,0 +1,171 @@
+---
+import { translations } from '../data/translations';
+
+interface Props {
+	lang?: 'en' | 'ar';
+}
+
+const { lang = 'en' } = Astro.props;
+const t = translations[lang].footer;
+---
+<footer id="footer">
+	<div class="container footer-container">
+		<div class="info">
+			<a href="/" class="logo-link"><span class="logo-text">Andalusia</span></a>
+			<p>{t.slogan}</p>
+			<p style="margin-top: 1rem; color: var(--text);">
+				<strong class="footer-contact-label">{lang === 'ar' ? 'البريد الإلكتروني' : 'Email'}:</strong> <a href="mailto:info@peanut-eg.com" class="footer-contact-link">info@peanut-eg.com</a><br/>
+				<strong class="footer-contact-label">{lang === 'ar' ? 'الهاتف' : 'Phone'}:</strong> <a href="tel:01000740732" class="footer-contact-link">01000740732</a>
+			</p>
+		</div>
+		<div class="links">
+			<div class="link-group">
+				<h4>{t.links.product}</h4>
+				<ul>
+					<li><a href="#product">{translations[lang].nav.product}</a></li>
+					<li><a href="#">Pricing</a></li>
+					<li><a href="#">Support</a></li>
+				</ul>
+			</div>
+			<div class="link-group">
+				<h4>{t.links.company}</h4>
+				<ul>
+					<li><a href="#about">{translations[lang].nav.about}</a></li>
+					<li><a href="#">Blog</a></li>
+					<li><a href="#">Careers</a></li>
+				</ul>
+			</div>
+			<div class="link-group">
+				<h4>{t.links.connect}</h4>
+				<ul>
+					<li><a href="https://www.facebook.com/people/%D8%A7%D9%84%D8%A7%D9%86%D8%AF%D9%84%D8%B3%D9%8A%D8%A9-%D9%84%D9%84%D8%AD%D8%A7%D8%B5%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%B2%D8%B1%D8%A7%D8%B9%D9%8A%D8%A9-%D9%81%D9%88%D9%84-%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7%D9%86%D9%8I/61585345451741/?rdid=KhW7DuQFoueqAHRX&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F186atf8CmE%2F" target="_blank">Facebook</a></li>
+					<li><a href="https://api.whatsapp.com/send/?phone=01000740732&text&type=phone_number&app_absent=0" target="_blank">WhatsApp</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container bottom">
+		<p>&copy; {new Date().getFullYear()} Andalusia. {t.copyright}</p>
+	</div>
+</footer>
+
+<style>
+	footer {
+		background: #000;
+		color: #fff;
+		padding: 6rem 0 2rem;
+		border-top: 1px solid #333;
+	}
+
+	.logo-link {
+		text-decoration: none !important;
+	}
+
+	.logo-text {
+		font-size: 1.75rem;
+		font-weight: 900;
+		letter-spacing: -0.05em;
+		color: #fff !important;
+		text-transform: uppercase;
+		display: inline-block !important;
+		margin-bottom: 1.5rem;
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
+
+	.logo-text::first-letter {
+		color: var(--accent) !important;
+	}
+
+	.footer-container {
+		display: grid;
+		grid-template-columns: 1fr 2fr;
+		gap: 4rem;
+		margin-bottom: 4rem;
+	}
+
+	h4 {
+		color: #fff;
+		font-size: 1.125rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.info p {
+		color: #ccc;
+		max-width: 300px;
+	}
+
+	.footer-contact-link {
+		color: #fff !important;
+		font-weight: 700;
+	}
+
+	.footer-contact-label {
+		color: var(--accent);
+		font-weight: 700;
+	}
+
+	.footer-contact-link:hover {
+		color: var(--accent) !important;
+	}
+
+	.links {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+	}
+
+	ul {
+		list-style: none;
+	}
+
+	li {
+		margin-bottom: 0.75rem;
+	}
+
+	a {
+		color: #ccc;
+		transition: color 0.2s ease;
+	}
+
+	a:hover {
+		color: var(--accent);
+		text-decoration: none;
+	}
+
+	.bottom {
+		padding-top: 2rem;
+		border-top: 1px solid #333;
+		text-align: center;
+		color: #888;
+		font-size: 0.875rem;
+	}
+
+	[dir="rtl"] .footer-container {
+		text-align: right;
+	}
+
+	[dir="rtl"] ul {
+		padding: 0;
+	}
+
+	@media (max-width: 768px) {
+		.footer-container {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+
+		[dir="rtl"] .footer-container {
+			text-align: center;
+		}
+
+		.info p {
+			margin: 0 auto;
+		}
+
+		.links {
+			grid-template-columns: 1fr;
+			gap: 3rem;
+		}
+	}
+</style>

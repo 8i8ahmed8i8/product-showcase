@@ -1,0 +1,144 @@
+---
+import { translations } from '../data/translations';
+
+interface Props {
+	lang?: 'en' | 'ar';
+}
+
+const { lang = 'en' } = Astro.props;
+const t = translations[lang].nav;
+
+const navItems = [
+	{ label: t.home, href: "#" },
+	{ label: t.product, href: "#product" },
+	{ label: t.about, href: "#about" },
+	{ label: t.contact, href: "#contact" },
+];
+---
+
+<header>
+	<div class="container header-container">
+		<div class="logo">
+			<a href="/"><img src="/images/6.png" alt="الاندلسه" class="logo-img" /></a>
+		</div>
+		<nav>
+			<ul>
+				{navItems.map(item => (
+					<li><a href={item.href}>{item.label}</a></li>
+				))}
+			</ul>
+		</nav>
+		<div class="controls">
+			<div class="cta">
+				<a href="#contact" class="btn btn-primary">{lang === 'en' ? 'Get Started' : 'ابدأ الآن'}</a>
+			</div>
+			<div class="control-group">
+				<a href={lang === 'en' ? '/ar' : '/'} class="control-btn lang-link">
+					{lang === 'en' ? 'AR' : 'EN'}
+				</a>
+			</div>
+		</div>
+	</div>
+</header>
+
+<style>
+	header {
+		padding: 1rem 0;
+		border-bottom: 1px solid var(--border);
+		position: sticky;
+		top: 0;
+		background: var(--nav-bg);
+		z-index: 1000;
+	}
+
+	.header-container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.logo-img {
+		height: 48px;
+		width: auto;
+		display: block;
+	}
+
+	nav ul {
+		display: flex;
+		list-style: none;
+		gap: 2rem;
+	}
+
+	nav a {
+		color: var(--muted);
+		font-weight: 500;
+		transition: color 0.2s;
+	}
+
+	nav a:hover {
+		color: var(--accent);
+		text-decoration: none;
+	}
+
+	.controls {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.control-group {
+		display: flex;
+		align-items: center;
+		border: 1px solid var(--border);
+		padding: 0.15rem;
+		border-radius: 12px;
+		background: transparent;
+	}
+
+	.control-btn {
+		background: transparent;
+		border: none;
+		color: var(--text);
+		width: 36px;
+		height: 36px;
+		border-radius: 9px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		text-decoration: none !important;
+	}
+
+	.control-btn:hover {
+		background: var(--card-bg);
+		color: var(--accent);
+		transform: translateY(-1px);
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	}
+
+	.lang-link {
+		font-weight: 800;
+		font-size: 0.75rem;
+		letter-spacing: 0.05em;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	@media (max-width: 968px) {
+		nav, .cta {
+			display: none;
+		}
+
+		.control-group {
+			background: none;
+			padding: 0;
+		}
+
+		.control-btn {
+			border: 1px solid var(--border);
+		}
+	}
+</style>

@@ -1,0 +1,236 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+	lang?: 'en' | 'ar';
+}
+
+const { title, description = "A modern product showcase and company landing page.", lang = 'en' } = Astro.props;
+const isRtl = lang === 'ar';
+---
+
+<!doctype html>
+<html lang={lang} dir={isRtl ? 'rtl' : 'ltr'}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+		
+		<div id="success-toast" class="success-toast">
+			<div class="toast-content">
+				<span class="icon">✅</span>
+				<p id="success-message">{lang === 'ar' ? 'تم إرسال الرسالة بنجاح!' : 'your mail has been sent successfully'}</p>
+			</div>
+		</div>
+
+		<a href="https://wa.me/201000740732" class="whatsapp-float" target="_blank" aria-label="Contact us on WhatsApp">
+			<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.891 11.887-11.891 3.181 0 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.481 8.403 0 6.556-5.332 11.89-11.888 11.89-2.015 0-3.986-.511-5.741-1.482l-6.251 1.641zm6.39-3.235c1.543.912 3.351 1.394 5.2 1.394 5.61 0 10.161-4.551 10.161-10.159 0-2.725-1.06-5.288-2.982-7.21-1.923-1.922-4.487-2.982-7.211-2.982-5.611 0-10.161 4.551-10.161 10.158 0 2.03.609 4.021 1.758 5.711l-.991 3.62 3.71-.974zm10.743-7.04c-.272-.136-1.61-.794-1.86-.885-.25-.091-.432-.136-.613.136-.182.273-.703.885-.863 1.067-.16.181-.318.204-.59.069-.272-.136-1.149-.423-2.19-1.353-.809-.721-1.355-1.611-1.513-1.884-.159-.273-.017-.42.12-.556.123-.122.272-.318.408-.477.136-.159.182-.272.272-.454.091-.181.045-.341-.022-.477-.068-.136-.613-1.477-.84-2.022-.222-.534-.447-.463-.613-.471l-.523-.009c-.182 0-.477.068-.727.341-.25.273-.954.932-.954 2.272 0 1.341.977 2.636 1.114 2.818.136.182 1.921 2.934 4.653 4.111.649.28 1.157.447 1.55.573.652.207 1.245.178 1.714.108.523-.078 1.61-.659 1.837-1.295.227-.636.227-1.181.159-1.295-.068-.113-.25-.181-.522-.317z"/></svg>
+		</a>
+
+		<script is:inline>
+			// Check for the success parameter in the URL
+			function checkSuccess() {
+				const urlParams = new URLSearchParams(window.location.search);
+				if (urlParams.get('success') === 'true') {
+					const toast = document.getElementById('success-toast');
+					if (toast) {
+						// Show the toast
+						toast.classList.add('show');
+						
+						// Hide after 3 seconds
+						setTimeout(() => {
+							toast.classList.remove('show');
+							// Optional: Clean up the URL
+							const newUrl = window.location.origin + window.location.pathname;
+							window.history.replaceState({}, document.title, newUrl);
+						}, 3000);
+					}
+				}
+			}
+
+			// Run on load
+			window.addEventListener('DOMContentLoaded', checkSuccess);
+		</script>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--accent: #16a34a;
+		--accent-light: #4ade80;
+		--accent-dark: #166534;
+		--text: #1e293b;
+		--background: #ffffff;
+		--muted: #64748b;
+		--border: #e2e8f0;
+		--card-bg: #ffffff;
+		--nav-bg: #ffffff;
+		--font-family: 'Inter', system-ui, -apple-system, sans-serif;
+	}
+
+	* {
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+	}
+
+	html,
+	body {
+		font-family: var(--font-family);
+		background: var(--background);
+		color: var(--text);
+		line-height: 1.5;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		color: #000;
+		font-weight: 700;
+	}
+
+	a {
+		color: var(--accent);
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 2rem;
+	}
+
+	section {
+		padding: 4rem 0;
+	}
+
+	.btn {
+		display: inline-block;
+		padding: 0.75rem 1.5rem;
+		border-radius: 6px;
+		font-weight: 600;
+		transition: all 0.2s ease;
+		cursor: pointer;
+		text-decoration: none;
+	}
+
+	.btn-primary {
+		background: var(--accent);
+		color: white;
+	}
+
+	.btn-primary:hover {
+		background: var(--accent-dark);
+		text-decoration: none;
+	}
+
+	.btn-secondary {
+		background: var(--card-bg);
+		color: var(--text);
+		border: 1px solid var(--border);
+	}
+
+	.btn-secondary:hover {
+		background: var(--border);
+		text-decoration: none;
+	}
+
+	.whatsapp-float {
+		position: fixed;
+		width: 60px;
+		height: 60px;
+		bottom: 30px;
+		right: 30px;
+		background-color: #25d366;
+		color: #fff;
+		border-radius: 50px;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+		z-index: 1000;
+		transition: all 0.3s ease;
+	}
+
+	[dir="rtl"] .whatsapp-float {
+		right: auto;
+		left: 30px;
+	}
+
+	.whatsapp-float:hover {
+		transform: scale(1.1);
+		background-color: #128c7e;
+		box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+		color: #fff;
+	}
+
+	@media (max-width: 768px) {
+		.whatsapp-float {
+			width: 50px;
+			height: 50px;
+			bottom: 20px;
+			right: 20px;
+		}
+		[dir="rtl"] .whatsapp-float {
+			right: auto;
+			left: 20px;
+		}
+	}
+
+	/* Toast Styles */
+	.success-toast {
+		position: fixed;
+		top: 2rem;
+		right: 2rem;
+		background: #16a34a;
+		color: white;
+		padding: 1rem 1.5rem;
+		border-radius: 8px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		transform: translateY(-150%);
+		transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		z-index: 9999;
+	}
+
+	.success-toast.show {
+		transform: translateY(0);
+	}
+
+	.toast-content {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.toast-content .icon {
+		font-size: 1.25rem;
+	}
+
+	.toast-content p {
+		margin: 0;
+		font-weight: 600;
+	}
+
+	@media (max-width: 768px) {
+		.success-toast {
+			left: 1rem;
+			right: 1rem;
+			top: 1rem;
+			text-align: center;
+		}
+		
+		.toast-content {
+			justify-content: center;
+		}
+	}
+</style>

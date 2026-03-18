@@ -1,0 +1,96 @@
+---
+import { translations } from '../data/translations';
+
+interface Props {
+	lang?: 'en' | 'ar';
+}
+
+const { lang = 'en' } = Astro.props;
+const t = translations[lang].hero;
+---
+
+<section class="hero">
+	<div class="container hero-container">
+		<div class="content">
+			<h1 set:html={t.title}></h1>
+			<p>{t.subtitle}</p>
+			<div class="actions">
+				<a href="#product" class="btn btn-primary">{t.products}</a>
+				<a href="#about" class="btn btn-secondary">{t.learnMore}</a>
+			</div>
+		</div>
+		<div class="visual">
+			<img src="/images/1.jpg" alt="Egyptian Peanuts" class="hero-image" />
+		</div>
+	</div>
+</section>
+
+<style>
+	.hero {
+		padding: 6rem 0;
+		background: linear-gradient(to bottom, var(--background), var(--card-bg));
+	}
+
+	.hero-container {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		align-items: center;
+		gap: 4rem;
+	}
+
+	h1 {
+		font-size: 3.5rem;
+		line-height: 1.1;
+		margin-bottom: 1.5rem;
+	}
+
+	h1 :global(span) {
+		color: var(--accent);
+	}
+
+	p {
+		font-size: 1.25rem;
+		color: var(--muted);
+		margin-bottom: 2rem;
+		max-width: 500px;
+	}
+
+	.actions {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.hero-image {
+		width: 100%;
+		border-radius: 12px;
+		display: block;
+		box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+	}
+
+	[dir="rtl"] .hero-container {
+		text-align: right;
+	}
+
+	@media (max-width: 968px) {
+		.hero-container {
+			grid-template-columns: 1fr;
+			text-align: center;
+		}
+
+		[dir="rtl"] .hero-container {
+			text-align: center;
+		}
+
+		.actions {
+			justify-content: center;
+		}
+
+		p {
+			margin: 0 auto 2rem;
+		}
+
+		h1 {
+			font-size: 2.5rem;
+		}
+	}
+</style>

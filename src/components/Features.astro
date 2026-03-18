@@ -1,0 +1,108 @@
+---
+import { translations } from '../data/translations';
+
+interface Props {
+	lang?: 'en' | 'ar';
+}
+
+const { lang = 'en' } = Astro.props;
+const t = translations[lang].features;
+
+const featureImages = [
+	"/images/2.avif",
+	"/images/3.webp",
+	"/images/4.jpg",
+	"/images/5.webp"
+];
+
+const features = t.items.map((item, index) => ({
+	...item,
+	image: featureImages[index]
+}));
+---
+
+<section id="product" class="features">
+	<div class="container">
+		<div class="header">
+			<h2>{t.title}</h2>
+			<p>{t.subtitle}</p>
+		</div>
+		<div class="grid">
+			{features.map(f => (
+				<div class="card">
+					<div class="product-image">
+						<img src={f.image} alt={f.title} />
+					</div>
+					<div class="card-content">
+						<h3>{f.title}</h3>
+						<p>{f.description}</p>
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	.features {
+		background: var(--background);
+	}
+
+	.header {
+		text-align: center;
+		margin-bottom: 4rem;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.header p {
+		font-size: 1.125rem;
+		color: var(--muted);
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+	}
+
+	.card {
+		overflow: hidden;
+		background: var(--card-bg);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+	}
+
+	.product-image img {
+		width: 100%;
+		aspect-ratio: 16/10;
+		object-fit: cover;
+	}
+
+	.card-content {
+		padding: 1.5rem;
+	}
+
+	h3 {
+		margin-bottom: 0.75rem;
+	}
+
+	.card-content p {
+		color: var(--muted);
+	}
+
+	[dir="rtl"] .card-content {
+		text-align: right;
+	}
+</style>
